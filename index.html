@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quill-v2 · 帖子预览与编辑</title>
+  <link href="/src/style.css" rel="stylesheet">
+</head>
+
+<body class="post-app">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <h1 class="mb-6 text-2xl font-semibold">帖子列表</h1>
+    <div id="post-list" class="flex flex-col gap-4"></div>
+  </div>
+
+  <div id="preview-quill-host" class="preview-quill-host" aria-hidden="true"></div>
+
+  <dialog class="dialog" id="post-dialog">
+    <div>
+      <form method="dialog">
+        <button type="submit" class="btn btn-ghost" aria-label="关闭">✕</button>
+      </form>
+      <header>
+        <h2>编辑帖子</h2>
+        <p class="text-muted-foreground">修改标题与正文后点击保存。</p>
+      </header>
+      <section class="dialog-editor-section">
+        <div class="field">
+          <label for="post-title-input">标题</label>
+          <input id="post-title-input" type="text" class="input" autocomplete="off" />
+        </div>
+        <div id="modal-editor" class="modal-editor-mount"></div>
+      </section>
+      <footer>
+        <button type="button" class="btn btn-outline" id="btn-cancel">取消</button>
+        <button type="button" class="btn" id="btn-save">保存</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
