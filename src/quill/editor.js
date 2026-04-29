@@ -70,7 +70,7 @@ const lastTableUpTexts = {
 };
 
 const tableUpConfig = {
-  full: false,
+  full: true,
   autoMergeCell: true,
   fullSwitch: true,
   icon:
