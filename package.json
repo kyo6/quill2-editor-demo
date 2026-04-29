@@ -18,6 +18,7 @@
     "md-to-quill-delta": "^2.0.0",
     "quill": "^2.0.3",
     "quill-table-up": "^3.5.1",
+    "quill-toolbar-tip": "^1.1.0",
     "tailwindcss": "^4.2.2"
   }
 }

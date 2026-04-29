@@ -1,5 +1,6 @@
 import Quill, { Delta } from 'quill';
 import { registerMarkdownClipboard } from './markdownClipboard.js';
+import QuillToolbarTip from 'quill-toolbar-tip';
 import TableUp, {
   TableAlign,
   TableVirtualScrollbar,
@@ -13,8 +14,10 @@ import TableUp, {
 import 'quill/dist/quill.snow.css';
 import 'quill-table-up/index.css';
 import 'quill-table-up/table-creator.css';
+import 'quill-toolbar-tip/dist/index.css';
 
 Quill.register({ [`modules/${TableUp.moduleName}`]: TableUp }, true);
+Quill.register({ [`modules/${QuillToolbarTip.moduleName}`]: QuillToolbarTip }, true);
 registerMarkdownClipboard();
 
 const toolbarConfig = [
@@ -152,23 +155,112 @@ const tableUpConfig = {
   texts: lastTableUpTexts.zh,
 };
 
+const toolbarTipConfig = {
+  defaultTooltipOptions: {
+    delay: 150,
+    direction: 'top',
+  },
+  tipTextMap: {
+    bold: '加粗',
+    italic: '斜体',
+    underline: '下划线',
+    strike: '删除线',
+    blockquote: '引用',
+    'code-block': '代码块',
+    code: '行内代码',
+    link: '链接',
+    image: '图片',
+    video: '视频',
+    formula: '公式',
+    clean: '清除格式',
+    [TableUp.toolName]: '表格',
+    list: {
+      values: {
+        ordered: '有序列表',
+        bullet: '无序列表',
+        check: '任务列表',
+      },
+    },
+    script: {
+      values: {
+        sub: '下标',
+        super: '上标',
+      },
+    },
+    indent: {
+      values: {
+        '-1': '减少缩进',
+        '+1': '增加缩进',
+      },
+    },
+    direction: {
+      values: {
+        rtl: '从右到左',
+      },
+      onShow(target) {
+        return target.classList.contains('ql-active') ? '从右到左' : '从左到右';
+      },
+    },
+    size: {
+      values: {
+        small: '小字号',
+        '': '默认字号',
+        large: '大字号',
+        huge: '超大字号',
+      },
+    },
+    header: {
+      values: {
+        '': '正文',
+        1: '一级标题',
+        2: '二级标题',
+        3: '三级标题',
+        4: '四级标题',
+        5: '五级标题',
+        6: '六级标题',
+      },
+    },
+    color: {
+      onShow(target, value) {
+        return value ? `文字颜色：${value}` : '文字颜色';
+      },
+    },
+    background: {
+      onShow(target, value) {
+        return value ? `背景颜色：${value}` : '背景颜色';
+      },
+    },
+    font: '字体',
+    align: {
+      values: {
+        '': '左对齐',
+        center: '居中对齐',
+        right: '右对齐',
+        justify: '两端对齐',
+      },
+    },
+  },
+};
+
 export function getQuillOptions() {
   return {
     theme: 'snow',
     modules: {
       toolbar: toolbarConfig,
       [TableUp.moduleName]: tableUpConfig,
+      [QuillToolbarTip.moduleName]: toolbarTipConfig,
     },
   };
 }
 
 function getPreviewQuillOptions() {
   const base = getQuillOptions();
+  const { [QuillToolbarTip.moduleName]: _toolbarTip, ...modules } = base.modules;
   return {
     theme: 'snow',
     readOnly: true,
     modules: {
-      ...base.modules,
+      ...modules,
       toolbar: false,
     },
   };
